@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
 for presente in presentes:
     gerar_pix(
-        chave="11984716640",
+        chave="+5511984716640",
         nome="WANDERLEY E MITIKO",
         cidade="SÃO PAULO",
         valor=presente["valor"],
