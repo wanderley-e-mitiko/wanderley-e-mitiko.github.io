@@ -2,7 +2,14 @@ import qrcode
 import unicodedata
 import re
 from decimal import Decimal, InvalidOperation
+import json
+from pathlib import Path
 
+# Diretório onde está o script
+BASE_DIR = Path(__file__).resolve().parent
+
+ARQUIVO_JSON = BASE_DIR / "presentes.json"
+DIRETORIO_PIX = BASE_DIR / "pix"
 
 def normalizar(texto, limite):
     """Remove acentos, converte para maiúsculas e limita o tamanho."""
@@ -140,29 +147,69 @@ def gerar_pix(
 
     return payload
 
+def carregar_presentes():
+
+    with open(
+        ARQUIVO_JSON,
+        "r",
+        encoding="utf-8"
+    ) as arquivo:
+
+        dados = json.load(arquivo)
+
+    return dados
+
+def gerar_todos_pix():
+
+    dados = carregar_presentes()
+
+    pix = dados["pix"]
+
+    DIRETORIO_PIX.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    for presente in dados["presentes"]:
+
+        identificador = presente["id"]
+
+        arquivo_qr = (
+            DIRETORIO_PIX
+            / f"qr_{identificador}.png"
+        )
+
+        payload = gerar_pix(
+            chave=pix["chave"],
+            nome=pix["nome"],
+            cidade=pix["cidade"],
+            valor=presente["valor"],
+            txid=identificador.upper(),
+            descricao=presente["nome"],
+            arquivo=str(arquivo_qr)
+        )
+
+        presente["pix"] = payload
+
+        print(
+            f"Gerado: {arquivo_qr.name}"
+        )
+
+        # Salva os dados com os payloads
+        with open(
+            ARQUIVO_JSON,
+            "w",
+            encoding="utf-8"
+        ) as arquivo:
+
+            json.dump(
+                dados,
+                arquivo,
+                ensure_ascii=False,
+                indent=4
+            )
 
 if __name__ == "__main__":
 
-    presentes = [
-        {
-            "nome": "Café da manhã",
-            "valor": 35,
-            "txid": "CAFE",
-        },
-        {
-            "nome": "Jantar romântico",
-            "valor": 90,
-            "txid": "JANTAR",
-        }
-    ]
+    gerar_todos_pix()
 
-for presente in presentes:
-    gerar_pix(
-        chave="+5511984716640",
-        nome="WANDERLEY E MITIKO",
-        cidade="SÃO PAULO",
-        valor=presente["valor"],
-        txid=presente["txid"],
-        descricao=presente["nome"],
-        arquivo=f"qr_{presente['txid'].lower()}.png",
-    )

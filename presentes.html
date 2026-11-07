@@ -188,75 +188,14 @@
             }
         }
     </style>
+
 </head>
 
 <body>
 
     <!-- Card do presente -->
 
-    <article class="presente">
-
-        <img
-            src="img/cafe.jpg"
-            alt="Café da manhã especial"
-        >
-
-        <div class="presente-conteudo">
-
-            <h2>Café da manhã dos campeões</h2>
-
-            <p>
-                Uma contribuição para começarmos a lua de mel
-                com café, croissant e nenhuma preocupação
-                com a hora.
-            </p>
-
-            <div class="valor">
-                R$ 35,00
-            </div>
-
-            <button
-                class="btn-principal"
-                onclick="abrirPix()"
-            >
-                Presentear
-            </button>
-
-        </div>
-
-    </article>
-
-    <article class="presente">
-
-        <img
-            src="img/jantar.jpg"
-            alt="Um jantar romântico com vinho e boa comida"
-        >
-
-        <div class="presente-conteudo">
-
-            <h2>Um jantar romântico</h2>
-
-            <p>
-                Uma contribuição para podermos comer comida
-                boa (algo que amamos) e planejar a próxima
-                viagem.
-            </p>
-
-            <div class="valor">
-                R$ 90,00
-            </div>
-
-            <button
-                class="btn-principal"
-                onclick="abrirPix()"
-            >
-                Presentear
-            </button>
-
-        </div>
-
-    </article>
+    <main id="listaPresentes"></main>
 
     <!-- Popup Pix -->
 
@@ -295,8 +234,8 @@
             <img
                 id="qrCode"
                 class="qr-code"
-                src="pix/qr_cafe.png"
-                alt="QR Code Pix de R$ 35,00"
+                src="pix/qr_item.png"
+                alt="QR Code Pix de R$ XX,00"
             >
 
             <p class="instrucoes">
@@ -308,7 +247,7 @@
 
                 <small>DESTINATÁRIO</small>
 
-                <strong>Wanderley e Mitiko</strong>
+                <strong id="destinatario"></strong>
 
             </div>
 
@@ -337,107 +276,7 @@
 
     </div>
 
-
-    <script>
-
-        // Dados do presente
-
-        const presente = {
-            nome: "Café da manhã dos campeões",
-            valor: 35.00,
-
-            qrCode: "pix/qr_cafe.png",
-
-            // Substitua pelo Pix Copia e Cola
-            // completo gerado pelo Python.
-
-            pix: "00020101021126530014br.gov.bcb.pix0114+55119847166400213CAFE DA MANHA520400005303986540535.005802BR5918WANDERLEY E MITIKO6009SAO PAULO62080504CAFE63041AB3"
-        };
-
-
-        // Abre o popup
-
-        function abrirPix() {
-
-            const modal = document.getElementById("modalPix");
-
-            modal.classList.add("aberto");
-
-            document.body.style.overflow = "hidden";
-
-            document.getElementById("mensagem").textContent = "";
-
-            document.getElementById("qrCode").src =
-                presente.qrCode;
-
-        }
-
-
-        // Fecha o popup
-
-        function fecharPix() {
-
-            const modal = document.getElementById("modalPix");
-
-            modal.classList.remove("aberto");
-
-            document.body.style.overflow = "";
-
-        }
-
-
-        // Fecha ao clicar no fundo
-
-        function fecharFundo(event) {
-
-            if (event.target.id === "modalPix") {
-
-                fecharPix();
-
-            }
-
-        }
-
-
-        // Fecha pressionando Esc
-
-        document.addEventListener("keydown", function(event) {
-
-            if (event.key === "Escape") {
-
-                fecharPix();
-
-            }
-
-        });
-
-
-        // Copia o Pix Copia e Cola
-
-        async function copiarPix() {
-
-            const mensagem = document.getElementById("mensagem");
-
-            try {
-
-                await navigator.clipboard.writeText(
-                    presente.pix
-                );
-
-                mensagem.textContent =
-                    "Pix Copia e Cola copiado!";
-
-            } catch (erro) {
-
-                mensagem.textContent =
-                    "Não foi possível copiar. " +
-                    "Tente novamente.";
-
-            }
-
-        }
-
-    </script>
+    <script src="js/presentes.js"></script>
 
 </body>
 </html>
