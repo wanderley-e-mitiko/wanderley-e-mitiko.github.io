@@ -1,0 +1,20 @@
+[
+  {
+    "id": "cafe",
+    "name": "Café da manhã dos campeões",
+    "description": "Um café especial para começar a lua de mel.",
+    "price": 35,
+    "image": "images/cafe.jpg",
+    "qr": "pix/qr_cafe.png",
+    "pix": "PAYLOAD_PIX_CAFE"
+  },
+  {
+    "id": "jantar",
+    "name": "Jantar romântico",
+    "description": "Uma noite especial para os recém-casados.",
+    "price": 120,
+    "image": "images/jantar.jpg",
+    "qr": "pix/qr_jantar.png",
+    "pix": "PAYLOAD_PIX_JANTAR"
+  }
+]

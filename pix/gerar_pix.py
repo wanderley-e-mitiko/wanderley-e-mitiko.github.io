@@ -146,19 +146,14 @@ if __name__ == "__main__":
     presentes = [
         {
             "nome": "Café da manhã",
-            "valor": 100,
+            "valor": 35,
             "txid": "CAFE",
         },
         {
             "nome": "Jantar romântico",
-            "valor": 300,
+            "valor": 90,
             "txid": "JANTAR",
-        },
-        {
-            "nome": "Lua de mel",
-            "valor": 500,
-            "txid": "LUA",
-        },
+        }
     ]
 
 for presente in presentes:

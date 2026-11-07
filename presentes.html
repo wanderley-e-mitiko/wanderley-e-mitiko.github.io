@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Presentes | Wanderley e Mitiko</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f5ef;
+            color: #44392f;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .presente {
+            max-width: 350px;
+            margin: auto;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px #0001;
+        }
+
+        .presente img {
+            width: 100%;
+            display: block;
+        }
+
+        .presente-conteudo {
+            padding: 20px;
+        }
+
+        .presente h2 {
+            margin-top: 0;
+        }
+
+        .valor {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        button {
+            cursor: pointer;
+            border: 0;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-size: 16px;
+        }
+
+        .btn-principal {
+            background: #8b6f47;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-principal:hover {
+            background: #705735;
+        }
+
+        /* Fundo escurecido */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+
+            background: rgba(0, 0, 0, 0.65);
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 15px;
+        }
+
+        .modal.aberto {
+            display: flex;
+        }
+
+        /* Popup */
+
+        .modal-conteudo {
+            position: relative;
+
+            background: white;
+            border-radius: 18px;
+
+            width: 100%;
+            max-width: 420px;
+
+            max-height: 90vh;
+            overflow-y: auto;
+
+            padding: 25px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 40px #0003;
+        }
+
+        .btn-fechar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+            background: transparent;
+            color: #666;
+
+            font-size: 24px;
+            padding: 5px 12px;
+        }
+
+        .btn-fechar:hover {
+            background: #f1f1f1;
+        }
+
+        .modal-titulo {
+            margin: 15px 25px 5px;
+        }
+
+        .modal-valor {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .qr-code {
+            width: 220px;
+            max-width: 100%;
+            height: auto;
+
+            display: block;
+            margin: 20px auto;
+        }
+
+        .instrucoes {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .destinatario {
+            background: #f8f5ef;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 20px 0;
+        }
+
+        .destinatario small {
+            display: block;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .btn-copiar {
+            background: #eee7dc;
+            color: #44392f;
+            width: 100%;
+        }
+
+        .btn-copiar:hover {
+            background: #e4d8c7;
+        }
+
+        .mensagem {
+            min-height: 20px;
+            font-size: 14px;
+            margin-top: 12px;
+            color: #47764b;
+        }
+
+        @media (max-width: 480px) {
+            .modal-conteudo {
+                padding: 20px;
+            }
+
+            .qr-code {
+                width: 190px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Card do presente -->
+
+    <article class="presente">
+
+        <img
+            src="img/cafe.jpg"
+            alt="Café da manhã especial"
+        >
+
+        <div class="presente-conteudo">
+
+            <h2>Café da manhã dos campeões</h2>
+
+            <p>
+                Uma contribuição para começarmos a lua de mel
+                com café, croissant e nenhuma preocupação
+                com a hora.
+            </p>
+
+            <div class="valor">
+                R$ 35,00
+            </div>
+
+            <button
+                class="btn-principal"
+                onclick="abrirPix()"
+            >
+                Presentear
+            </button>
+
+        </div>
+
+    </article>
+
+    <article class="presente">
+
+        <img
+            src="img/jantar.jpg"
+            alt="Um jantar romântico com vinho e boa comida"
+        >
+
+        <div class="presente-conteudo">
+
+            <h2>Um jantar romântico</h2>
+
+            <p>
+                Uma contribuição para podermos comer comida
+                boa (algo que amamos) e planejar a próxima
+                viagem.
+            </p>
+
+            <div class="valor">
+                R$ 90,00
+            </div>
+
+            <button
+                class="btn-principal"
+                onclick="abrirPix()"
+            >
+                Presentear
+            </button>
+
+        </div>
+
+    </article>
+
+    <!-- Popup Pix -->
+
+    <div
+        id="modalPix"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitulo"
+        onclick="fecharFundo(event)"
+    >
+
+        <div class="modal-conteudo">
+
+            <button
+                class="btn-fechar"
+                onclick="fecharPix()"
+                aria-label="Fechar"
+            >
+                &times;
+            </button>
+
+            <h2
+                id="modalTitulo"
+                class="modal-titulo"
+            >
+                Café da manhã dos campeões
+            </h2>
+
+            <p class="modal-valor">
+                R$ 35,00
+            </p>
+
+            <!-- QR Code Pix -->
+
+            <img
+                id="qrCode"
+                class="qr-code"
+                src="pix/qr_cafe.png"
+                alt="QR Code Pix de R$ 35,00"
+            >
+
+            <p class="instrucoes">
+                Escaneie o QR Code com o aplicativo
+                do seu banco para realizar o Pix.
+            </p>
+
+            <div class="destinatario">
+
+                <small>DESTINATÁRIO</small>
+
+                <strong>Wanderley e Mitiko</strong>
+
+            </div>
+
+            <!-- Copia e Cola -->
+
+            <button
+                class="btn-copiar"
+                onclick="copiarPix()"
+            >
+                Copiar Pix
+            </button>
+
+            <div
+                id="mensagem"
+                class="mensagem"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+            <p class="instrucoes">
+                O presente é simbólico.
+                O pagamento é uma contribuição para os noivos.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Dados do presente
+
+        const presente = {
+            nome: "Café da manhã dos campeões",
+            valor: 35.00,
+
+            qrCode: "pix/qr_cafe.png",
+
+            // Substitua pelo Pix Copia e Cola
+            // completo gerado pelo Python.
+
+            pix: "00020101021126500014br.gov.bcb.pix0111119847166400213CAFE DA MANHA520400005303986540535.005802BR5918WANDERLEY E MITIKO6009SAO PAULO62080504CAFE63040D34"
+        };
+
+
+        // Abre o popup
+
+        function abrirPix() {
+
+            const modal = document.getElementById("modalPix");
+
+            modal.classList.add("aberto");
+
+            document.body.style.overflow = "hidden";
+
+            document.getElementById("mensagem").textContent = "";
+
+            document.getElementById("qrCode").src =
+                presente.qrCode;
+
+        }
+
+
+        // Fecha o popup
+
+        function fecharPix() {
+
+            const modal = document.getElementById("modalPix");
+
+            modal.classList.remove("aberto");
+
+            document.body.style.overflow = "";
+
+        }
+
+
+        // Fecha ao clicar no fundo
+
+        function fecharFundo(event) {
+
+            if (event.target.id === "modalPix") {
+
+                fecharPix();
+
+            }
+
+        }
+
+
+        // Fecha pressionando Esc
+
+        document.addEventListener("keydown", function(event) {
+
+            if (event.key === "Escape") {
+
+                fecharPix();
+
+            }
+
+        });
+
+
+        // Copia o Pix Copia e Cola
+
+        async function copiarPix() {
+
+            const mensagem = document.getElementById("mensagem");
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    presente.pix
+                );
+
+                mensagem.textContent =
+                    "Pix Copia e Cola copiado!";
+
+            } catch (erro) {
+
+                mensagem.textContent =
+                    "Não foi possível copiar. " +
+                    "Tente novamente.";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
+
